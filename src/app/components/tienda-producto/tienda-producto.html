@@ -1,0 +1,36 @@
+
+<div class="product-container">
+    @if (productosService.productoEnPantalla) {
+        <mat-card class="product-card">
+            <img mat-card-image [src]="productosService.productoEnPantalla.imagen" alt="Imagen no disponible" class="product-image">
+
+            <mat-card-content>
+                <h1 class="product-title">{{ productosService.productoEnPantalla.nombre }}</h1>
+                <p class="product-description">{{ productosService.productoEnPantalla.descripcion }}</p>
+                <p class="product-price">$ {{ productosService.productoEnPantalla.precio }}</p>
+                <p class="product-stock" [ngClass]="{ 'low-stock': productosService.productoEnPantalla.stock < 5 }">
+                    Stock disponible: {{ productosService.productoEnPantalla.stock }}
+                </p>
+            </mat-card-content>
+
+            <mat-card-actions>
+
+                <button
+                        mat-raised-button color="primary"
+                        (click)="agregarProductoAlCarrito()"
+                >Agregar al carrito</button>
+            </mat-card-actions>
+        </mat-card>
+
+    }
+    @if (comprasService.mostrarModalLoginRequerido) {
+        <div class="modal"
+             (click)="comprasService.mostrarModalLoginRequerido=false"
+             style="cursor: pointer; border-radius: 100px; box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.6); background-color: rgba(215,246,241,0.88)" >
+            <p>Debes iniciar sesión para agregar productos al carro</p>
+        </div>
+
+        <div class="modal-backdrop" (click)="comprasService.mostrarModalLoginRequerido=false"></div>
+    }
+
+</div>

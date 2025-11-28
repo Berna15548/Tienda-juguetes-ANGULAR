@@ -1,0 +1,21 @@
+<div class="nuevos-juguetes">
+    <div class="contenedor-nuevos-productos">
+        <h2 class="titulo">Nuevos productos!</h2>
+        <div class="productos-grid">
+            @for (producto of newProductsService.productosNuevosSubject$ | async; track producto.id) {
+                <app-product-card [producto]="producto"></app-product-card>
+            }
+        </div>
+    </div>
+
+    <div class="contenedor-todos-los-productos">
+        <h2 class="titulo">Explora la tienda completa</h2>
+        <div class="productos-grid">
+            @for (producto of productosService.trendProducts$ | async; track producto.id) {
+                <app-product-card [producto]="producto"></app-product-card>
+            }
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,39 @@
+<!--SLIDE PRINCIPAL-->
+<div class="slide-brand">
+    <div style="position: absolute; height: 100%; width: 100%;">
+        <button mat-button class="boton-slide" [routerLink]="['/bigShop']">
+           <span style="color: black">Explora la colección!</span>
+        </button>
+    </div>
+</div>
+<!--SECCION CARTAS DE COLECCIONES-->
+<div class="cards-container">
+    @for (object of coleccion; track object.id) {
+        <div
+                class="block-card"
+                style="cursor:pointer"
+                [ngStyle]="{ 'background-image': 'url(' + object.image + ')' }"
+                (click)="catalogosService.IrACatalogoPorCartaColeccion(object.lista_productos_coleccion)"
+        >
+            <div class="card-content">
+                <div class="card-title">
+                    {{ object.name }}
+                </div>
+                <P style="background-color: rgba(0,0,0,0.6); border-radius: 20px; text-align: center; padding: 10px">{{ object.description }}</P>
+            </div>
+        </div>
+    }
+</div>
+<!--SECCION DESCUENTOS-->
+<div class="contenedor-descuentos">
+    <h1>Productos en rebaja</h1>
+    <div class="rebajas">
+        @for (producto of productosService.trendProducts$ | async; track producto.id) {
+            @if (producto.descuento > 0) {
+                <app-product-card [producto]="producto"></app-product-card>
+            }
+
+        }
+    </div>
+
+</div>

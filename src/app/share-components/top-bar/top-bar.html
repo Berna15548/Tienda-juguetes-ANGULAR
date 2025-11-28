@@ -1,0 +1,136 @@
+<div style="height: 100px;">
+
+    <div style="position: fixed; width: 100%; z-index: 100">
+        <div class="top-bar">
+            <!--  ---------                  -----------           barra de busquedas-->
+            <div class="topbar-search-bar">
+                <!-- LOGO -->
+                <div class="logo">
+                    <img src="/images/toyshop-logo.png" alt="img not found" />
+                </div>
+
+                <!-- INPUT DE BÚSQUEDA -->
+                <input  id="input1"
+                        type="text"
+                        class="busqueda-input"
+                        placeholder="Buscar..."
+                        [(ngModel)]="productosService.searchTerm"
+                        (input)="productosService.filtrarProductos()"
+                        (focus)="mostrarResultados = true"
+                        (blur)="ocultarResultadosConDelay()"
+                        autocomplete="off"
+                />
+
+                <!-- Resultados de búsqueda -->
+
+                @if (mostrarResultados && productosService.searchTerm!=="") {
+                    <div class="resultados">
+
+                        @for (producto of productosService.productosFiltrados; track producto.nombre) {
+                            <div class="producto" (click)="productosService.seleccionarProducto(producto); productosService.searchTerm='' " [routerLink]="['/tienda-producto']">
+                                <img
+                                        [ngSrc]="producto.imagen"
+                                        width="200"
+                                        height="200"
+                                        alt="Image missing"
+                                />
+                                <h3>{{ producto.nombre }}</h3>
+                                <p>{{ producto.descripcion }}</p>
+                                <span>{{ producto.precio | currency }}</span>
+                            </div>
+                        }
+                    </div>
+                }
+
+                <!--iconos de logearse, ubicacion y usuario-->
+
+                <div class="div-icons">
+                    <button class="icon" [routerLink]="['']">
+                        <mat-icon>home</mat-icon>
+                    </button>
+                    @let user = authService.user$ | async;
+                    @if (user) {
+                        <button class="icon-adm" [routerLink]="['/admin']">
+                            <mat-icon>settings</mat-icon>
+                        </button>
+                    }
+
+                    <button class="icon"  [routerLink]="['/login']" >
+                        <mat-icon>person</mat-icon>
+                    </button>
+
+                    <button class="icon" (click)="productosService.verCarrito=true" >
+                        <mat-icon>shopping_cart</mat-icon>
+                    </button>
+                </div>
+            </div>
+
+
+            <!--       ----------           ----------         Menú de categorías -->
+            <div class="categories-bar">
+                <ul class="site-navigation">
+                    <li class="has-submenu">
+                        <h3>Categoría</h3>
+                        <div class="submenu">
+                            <ul>
+                                @for (categoria of categorias; track categoria) {
+                                    <li (click)="catalogoService.irACatalogoPorCategoria(categoria)">
+                                        <a style="cursor: default">{{ categoria }}</a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+
+                    <li class="has-submenu">
+                        <h3>Edades</h3>
+                        <div class="submenu">
+                            <ul>
+                                @for (edad of rangosEdades; track edad) {
+                                    <li (click)="catalogoService.irACatalogoPorEdades(edad)">
+                                        <a style="cursor: default">{{ edad }}</a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="has-submenu">
+                        <h3>Marcas</h3>
+                        <div class="submenu">
+                            <ul>
+                                @for (marca of marcas; track marca) {
+                                    <li (click)="catalogoService.irACatalogoPorMarca(marca)">
+                                        <a style="cursor: default">{{ marca }}</a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        @if (productosService.verCarrito) {
+            <div class="modal" style="position: relative; width: fit-content; min-height: fit-content; max-height: 70vh; overflow-y: auto; margin-top: 30vh;
+            ">
+                @let carrito = this.compras.carrito$ | async;
+                @if (carrito && carrito.length > 0) {
+                    <app-cart-component style="max-height: inherit;"></app-cart-component>
+                } @else {
+                    <div class="clase123">
+                        <p>No hay productos en el carrito</p>
+                        <button mat-button (click)="productosService.verCarrito = false" style="background-color: #dfe8f1">Cerrar</button>
+                    </div>
+                }
+            </div>
+            <div class="modal-backdrop" (click)="productosService.verCarrito = false"> </div>
+
+
+
+        }
+
+    </div>
+
+</div>
+
+

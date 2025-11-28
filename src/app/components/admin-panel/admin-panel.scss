@@ -1,0 +1,214 @@
+:host {
+    display: block;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+}
+
+.admin-panel-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+}
+
+h2 {
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+    color: #333;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 0.5rem;
+}
+
+.admin-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.admin-actions button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.admin-actions button:hover {
+    background-color: #1565c0;
+}
+.miniatura-de-busqueda{
+    border: 3px solid #c1bfbf;
+    cursor: pointer;
+}
+
+.productos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.producto-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.producto-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.producto-imagen img {
+    width: 120px;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+}
+
+.producto-detalles {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.producto-precio {
+    font-size: 1.1rem;
+    color: #1976d2;
+    font-weight: bold;
+}
+
+.producto-item button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.producto-item button:hover {
+    background-color: #1565c0;
+}
+
+/*MODAL PREGUNTA GUARDAR CAMBIOS*/
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* fondo oscuro semitransparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* para que quede arriba */
+}
+
+.modal-contenido {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+}
+
+.modal-botones {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1.5rem;
+}
+
+.modal-botones button {
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: #1976d2;
+    color: white;
+    transition: background-color 0.2s ease;
+}
+
+.modal-botones button:hover {
+    background-color: #1565c0;
+}
+
+.seleccion_modo_adm{
+    display: flex;
+    flex-direction: row;
+}
+
+.seleccion_modo_adm button{
+    padding: 0.5rem;
+    margin: 0.5rem;
+}
+
+.fila-superior {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+.label-checkbox{
+    margin-right: 20px;
+    width: 30%;
+    margin-bottom: 5px;
+    padding: 5px;
+    border: 1px solid black;
+}
+
+.boton-cargar-imagen {
+    background-color: rgba(193, 226, 241, 0.73) !important;
+    color: black !important;
+    border: 1px solid #100000 !important;
+}
+
+.boton-cargar-imagen:hover {
+    background-color: rgb(166, 195, 207) !important;
+}
+
+.resultados {
+    position: absolute;
+    width: 200px;
+    height: fit-content;
+    max-height: 400px;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    z-index: 900;
+    padding: 10px;
+    margin-top: 5px;
+}
+
+.input-descuentos{
+    width: 200px;
+}
+
+.contenedor-descuentos {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.preview-descuento{
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}

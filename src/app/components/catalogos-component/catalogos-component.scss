@@ -1,0 +1,70 @@
+.catalogo-juguetes {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 1rem;
+}
+
+.productos-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 0 10vw;
+}
+
+.producto-card {
+    display: flex;
+    flex-direction: column;
+    height: 60vh;
+    border: 1px solid #ddd;
+    background-color: white;
+    width: 15vw;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 10px 0 rgba(0,0,0,0.19);
+}
+.producto-nombre{
+    font-weight: bold;
+    height: fit-content;
+    margin: 0;
+}
+.producto-imagen {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.filtro-categorias button {
+    margin: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.titulo {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+
+}
+.producto-info{
+    width: 100%;
+    display: inline-block;
+    text-align: start;
+    bottom: 0;
+    overflow: auto;
+
+}
+
+.contenedor-imagen{
+    height: 150px;
+    width: 100%;
+}
+
+.contenedor-espaciado{
+    flex: 1;
+}

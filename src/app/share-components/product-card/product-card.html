@@ -1,0 +1,38 @@
+<div
+        class="producto-card"
+        (click)="productosService.seleccionarProducto(producto)"
+        [routerLink]="['/tienda-producto']">
+    <div class="contenedor-imagen">
+        <img [src]="producto.imagen" [alt]="producto.nombre" class="producto-imagen"/>
+    </div>
+    <div class="contenedor-espaciado">
+        <!--<h4 class="producto-precio">$ {{ producto.precio }}</h4>-->
+        <div class="contenedor-numeros-descuento">
+            <div style="display: flex; flex-direction: row; justify-content: space-between">
+
+                @if (producto.descuento >0) {
+                    <p class="card-text" style="text-decoration: line-through; color: red">${{ producto.precio }}</p>
+                    <h2 class="card-text">-{{ (producto.descuento ) }}%</h2>
+                } @else {
+                    <div style="display: flex; justify-content: center; width: 100%">
+                        <h2 style="display: inline-block">${{producto.precio}}</h2>
+                    </div>
+                }
+            </div>
+            @if (producto.descuento >0) {
+                <p class="card-text" style="color: green; font-weight: bold; font-size: x-large">${{ producto.precio*((100-producto.descuento)/100)| number: '1.0-0' }}
+                </p>
+            }
+
+        </div>
+    </div>
+    <div class="producto-info">
+        <p class="producto-nombre">{{ producto.nombre }}</p>
+        <hr>
+        <p class="producto-descripcion">{{ producto.descripcion }}</p>
+    </div>
+</div>
+
+
+
+

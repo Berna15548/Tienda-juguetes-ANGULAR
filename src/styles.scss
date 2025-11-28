@@ -1,0 +1,33 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+html, body { height: 100%; background-color: transparent}
+body { margin: 0; font-family: "Comic Sans MS", sans-serif; }
+
+h1, h2, h3, h4, h5, h6 {
+    pointer-events: none;
+}
+
+.modal {
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #ffffff;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    z-index: 11;
+    min-width: 200px;
+    padding: 20px
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 10;
+}

@@ -1,0 +1,117 @@
+
+.div-carrito {
+    width: 30vw;
+    margin: 0px 5px;
+}
+
+/* Estilos para cada ítem del mat-list */
+mat-list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    gap: 1rem;
+}
+
+/* Info del producto */
+.producto-info {
+    flex: 2;
+    min-width: 200px;
+}
+
+
+
+/* Total */
+.precio-total {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    flex: 1;
+    text-align: right;
+    min-width: 120px;
+}
+
+.precio-total-2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    border-radius: 10px;
+    text-align: right;
+    width: 100%;
+    position: sticky;
+    padding: 0px 10px;
+    bottom: 0;
+    background-color: rgb(186, 180, 180);
+}
+
+
+/* Botón de comprar */
+.div-carrito > button {
+    align-self: flex-end;
+    margin-top: auto;
+}
+
+.cart-item{
+    position: relative;
+    width: 100%;
+    min-height: 200px;
+    height: fit-content;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.30);
+}
+
+
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    font-family: "Segoe UI", Roboto, sans-serif;
+    margin: 8px 0;
+}
+
+.input-container label {
+    margin-bottom: 4px;
+    font-weight: 500;
+    color: #333;
+}
+
+.input-container input[type="number"] {
+    appearance: none;
+    -moz-appearance: textfield; /* Firefox */
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 16px;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+    background-color: #fff;
+    color: #222;
+    outline: none;
+}
+
+/* Mostrar siempre las flechitas */
+.input-container input[type="number"]::-webkit-inner-spin-button,
+.input-container input[type="number"]::-webkit-outer-spin-button {
+    opacity: 1 !important;
+    pointer-events: all !important;
+}
+
+/* Estilo al enfocar */
+.input-container input[type="number"]:focus {
+    border-color: #3f51b5;
+    box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.15);
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 10;
+}
