@@ -11,6 +11,7 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideStorage, getStorage } from '@angular/fire/storage';
 
+    //  >>>>>>      REEMPLAZAR CONTENIDO DE firebaseConfig CON TU PROPIO FIREBASE   <<<<<<<
 const firebaseConfig = {
     apiKey: "",
     authDomain: "",
@@ -25,7 +26,7 @@ bootstrapApplication(App, {
     providers: [
         provideRouter(
             routes,
-            withRouterConfig({ onSameUrlNavigation: 'reload' }) // esta linea fuerza que se refresque el componente si se vuelve a introducir la url
+            withRouterConfig({ onSameUrlNavigation: 'reload' })
         ),
         provideFirebaseApp(() => initializeApp(firebaseConfig)),
         provideFirestore(() => getFirestore()),
