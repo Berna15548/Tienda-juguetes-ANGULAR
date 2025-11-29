@@ -18,6 +18,7 @@ import {  MatFormField,  MatLabel} from "@angular/material/input";
 import {  MatOption,  MatSelect} from "@angular/material/select";
 import {  MatButton} from "@angular/material/button";
 import { NewProductsService } from "../../service/new-products-service";
+import {MatIconModule} from "@angular/material/icon";
 
 
 @Component({
@@ -31,6 +32,7 @@ import { NewProductsService } from "../../service/new-products-service";
     MatOption,
     MatButton,
     NgOptimizedImage,
+    MatIconModule,
   ],
   templateUrl: './admin-panel.html',
   styleUrl: './admin-panel.scss'

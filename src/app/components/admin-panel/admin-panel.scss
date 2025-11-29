@@ -5,12 +5,14 @@
 }
 
 .admin-panel-container {
-    max-width: 800px;
+    display: grid;
+    grid-template-columns: 60% 1fr;
+    min-height: calc(100vh - 100px);
     margin: 0 auto;
     background-color: white;
     border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     padding: 2rem;
+    gap: 20px;
 }
 
 h2 {
@@ -51,7 +53,14 @@ h2 {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 1rem;
-    margin-top: 2rem;
+}
+
+.buscador-adm {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-height: 40px;
+    width: 100%;
 }
 
 .producto-item {
@@ -68,17 +77,30 @@ h2 {
     font-weight: bold;
     margin-bottom: 0.5rem;
 }
+.producto-imagen{
+    height: 100px;
+    justify-content: center;
+    align-items: center;
+}
+.icono-centrado {
+    display: flex;
+    justify-content: center; /* eje horizontal */
+    align-items: center;     /* eje vertical */
+    width: 100%;
+    height: 100%;
+    scale: 4;
+}
+
 
 .producto-imagen img {
-    width: 120px;
-    height: auto;
+    height: 100%;
     border-radius: 4px;
     margin-bottom: 0.5rem;
 }
 
 .producto-detalles {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 0.5rem;
 }
 
@@ -165,11 +187,17 @@ h2 {
 }
 
 .label-checkbox{
-    margin-right: 20px;
-    width: 30%;
-    margin-bottom: 5px;
+    display: flex;
+    flex-direction: row;
     padding: 5px;
     border: 1px solid black;
+    background-color: lightgray;
+}
+
+.contenedor-der{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .boton-cargar-imagen {
