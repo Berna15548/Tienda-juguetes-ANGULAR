@@ -13,9 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatIconModule } from "@angular/material/icon";
 import { ProductosService } from "../../service/productos-service";
-import {
-  RouterLink
-} from "@angular/router";
+import { RouterModule } from '@angular/router';
 import {  AuthService} from "../../service/auth-service";
 import {  CartComponent} from "../cart-component/cart-component";
 import {  MatButton} from "@angular/material/button";
@@ -37,7 +35,7 @@ import {
     MatIconModule,
     FormsModule,
     NgOptimizedImage,
-    RouterLink,
+    RouterModule, 
     CartComponent,
     MatButton,
   ],
