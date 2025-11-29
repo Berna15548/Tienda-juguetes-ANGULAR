@@ -132,6 +132,10 @@ body {
     position: relative;
 }
 
+.has-submenu:hover{
+    transform: scale(1.2)
+    }
+
 .submenu {
     display: none;
     position: absolute;
