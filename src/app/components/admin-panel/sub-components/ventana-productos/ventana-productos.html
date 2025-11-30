@@ -1,0 +1,63 @@
+<div class="contenedor-der"
+>
+    <!-- buscador -->
+    <div class="buscador-adm">
+        <input
+                [disabled]="productosService.mostrarTodosProductos"
+                type="text"
+                style="width: 50%; height: 100%"
+                [placeholder]="productosService.mostrarTodosProductos ? '---' : 'Buscar producto...'"
+                [(ngModel)]="productosService.searchTerm"
+                (input)="productosService.filtrarProductos()"
+                (focus)="adminService.mostrarResultados = true"
+                (blur)="adminService.ocultarResultadosConDelay()"
+                autocomplete="off"
+        />
+
+        <label class="label-checkbox" (click)="productosService.filtrarProductos()">
+            Mostrar todos los productos
+            <input
+                    type="checkbox"
+                    [(ngModel)]="productosService.mostrarTodosProductos"
+                    (change)="productosService.filtrarProductos()"
+                    style="pointer-events: none; scale: 1.5; margin-left: 10px"
+            />
+        </label>
+    </div>
+
+    <div class="productos-grid">
+
+        <!-- Lista de productos -->
+
+        @for (p of productosService.productosFiltrados; track p.id) {
+            <div class="producto-item">
+                <div class="producto-header">
+                    <input
+                            type="checkbox"
+                            [(ngModel)]="p.seleccionado"
+                            (ngModelChange)="adminService.productosService.toggleSeleccion(p, $event)"
+                            id="chk-{{p.id}}"
+                    />
+                    <label for="chk-{{p.id}}">{{ p.nombre }}</label>
+                </div>
+
+                <div class="producto-imagen">
+                    @if (p.imagen) {
+                        <img [src]="p.imagen" alt="Imagen del producto {{ p.nombre }}" />
+                    } @else {
+
+                        <mat-icon class="icono-centrado">
+                            image_not_supported
+                        </mat-icon>
+                    }
+                </div>
+
+                <div class="producto-detalles">
+                    <span class="producto-precio">{{ p.precio }}$</span>
+                    <button (click)="adminService.cargarEnFormulario(p)">Editar</button>
+                </div>
+            </div>
+        }
+    </div>
+
+</div>

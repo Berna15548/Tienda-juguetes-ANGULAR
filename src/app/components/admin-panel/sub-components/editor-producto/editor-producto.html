@@ -1,0 +1,79 @@
+<!--EDITOR DE PRODUCTOS-            --  -        -       -           ----            --          -->
+<div class="ventana-editar-productos">
+    <div>
+
+        <!-- Subida de imagen -->
+        @if (adminService.imagenUrl) {
+            <p id="@if_imagen">
+                Imagen cargada:
+                <a [href]="adminService.imagenUrl" target="_blank">{{ adminService.imagenUrl }}</a>
+            </p>
+        }
+
+        <!-- Formulario agregar/editar -->
+        <div>
+            <hr>
+            <h3>Información del producto:</h3>
+            <div class="admin-actions">
+                Nombre:<input [(ngModel)]="adminService.form.nombre">
+                Precio:<input [(ngModel)]="adminService.form.precio" type="number">
+                Descripción:<input [(ngModel)]="adminService.form.descripcion">
+                Categoría:<input [(ngModel)]="adminService.form.categoria">
+                Stock:<input [(ngModel)]="adminService.form.stock">
+
+                <button (click)="fileInput.click()" class="boton-cargar-imagen">Cargar imagen</button>
+                <button (click)="adminService.abrirModalGuardado()">Guardar producto</button>
+            </div>
+
+            <input
+                    type="file"
+                    (change)="adminService.onFileSelected($event)"
+                    style="display: none"
+                    #fileInput
+            />
+
+            <div style="display: flex; gap: 20px; margin-top: 1.5rem">
+                <button
+                        (click)="adminService.seleccionarTodosFiltrados()"
+                        [disabled]="this.adminService.productosService.productosFiltrados.length===0"
+                >
+                    Seleccionar todo
+                </button>
+                <button
+                        (click)="adminService.abrirModalEliminar()"
+                        [disabled]="this.adminService.productosService.productosSeleccionados.length===0"
+                >
+                    Eliminar productos seleccionados
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal guardar cambios -->
+    @if (adminService.mostrarModalGuardar) {
+        <div class="modal-overlay">
+            <div class="modal-contenido">
+                <p>¿Desea guardar los cambios?</p>
+                <div class="modal-botones">
+                    <button (click)="adminService.confirmarGuardado()">Aceptar</button>
+                    <button (click)="adminService.cerrarModalGuardado()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- modal eliminar productos seleccionados -->
+    @if (adminService.mostrarModalEliminar) {
+        <div class="modal-overlay">
+            <div class="modal-contenido">
+                <p>¿Desea eliminar los productos?</p>
+                <div class="modal-botones">
+                    <button (click)="adminService.confirmarEliminar()">Aceptar</button>
+                    <button (click)="adminService.cerrarModalEliminar()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    }
+
+
+</div>

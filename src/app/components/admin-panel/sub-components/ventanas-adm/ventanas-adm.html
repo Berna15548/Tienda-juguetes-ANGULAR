@@ -1,0 +1,12 @@
+<div class="fila-superior">
+    <h2>Panel de administración</h2>
+
+    <div class="seleccion_modo_adm">
+        <button (click)="adminService.mostrarVentanaAdm=true" [disabled]="adminService.mostrarVentanaAdm===true">
+            Editar Productos
+        </button>
+        <button (click)="adminService.mostrarVentanaAdm=false" [disabled]="adminService.mostrarVentanaAdm===false">
+            Subir archivo .xlsx
+        </button>
+    </div>
+</div>
