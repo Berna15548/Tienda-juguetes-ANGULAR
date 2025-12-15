@@ -171,7 +171,6 @@ body {
 }
 
 
-/*estilos especiales del seachbar*/
 
 /* RESULTADOS DE BÚSQUEDA */
 .resultados {
@@ -235,7 +234,7 @@ input:focus + .resultados {
     color: #007bff;
 }
 
-/* saas dfsaf asf asa f*/
+
 .div-input {
 
 }
@@ -252,7 +251,7 @@ input:focus + .resultados {
 .user-menu {
     position: absolute;
     border-radius: 100px;
-    top: 50px; /* o lo que necesites para que se vea bien */
+    top: 50px;
     right: 80px;
     z-index: 1000;
     display: flex;

@@ -7,12 +7,17 @@
             <div id="fila-inferior">
 
                 @if (adminService.mostrarVentanaAdm === true) {      <!--VENTANA DE EDITAR PRODUCTOS -->
-                    <app-editor-producto></app-editor-producto>
+                    @if (adminService.form.id !== null) {
+                        <app-editor-producto></app-editor-producto>
+                    }
                     <app-editor-colecciones></app-editor-colecciones>
                     <app-editor-nuevo-producto></app-editor-nuevo-producto>
 
                 } @else if (adminService.mostrarVentanaAdm === false) {  <!--VENTANA DE CARGAR ARCHIVO EXCEL O SUBIR PRODUCTO A MANO-->
-                    <app-editor-producto></app-editor-producto>
+
+                    <div class="ventana-cargar-archivo-db">
+                        <app-subir-producto></app-subir-producto>
+                    </div>
                 }
 
             </div>

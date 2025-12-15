@@ -1,5 +1,5 @@
 import { Component, OnInit} from '@angular/core';
-import { ColeccionesDeProductosService } from "../../service/colecciones-de-productos-service";
+import ColeccionesDeProductosService from "../../service/colecciones-de-productos-service";
 import { ProductosService} from "../../service/productos-service";
 import {    productCollectionCard,} from "../../interfaces/interfaces";
 import {    AsyncPipe,    DecimalPipe,    NgStyle} from "@angular/common";

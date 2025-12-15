@@ -30,7 +30,6 @@
                         class="login-button"
                         [disabled]="loginForm.invalid"
                 >
-                    <!--tooltip-->
                     <div
                         #tooltipRef="matTooltip"
                         matTooltip="{{tooltipMessage}}"
@@ -53,8 +52,6 @@
                 </button>
             </div>
 
-
-            <!-- Enlace Registrarse -->
             <div style="text-align: center; margin-top: 10px;" (click)="mostrarFormularioRegistro = true">
                 <a  style="text-decoration: underline; color: #3f51b5; cursor: pointer;">
                     Registrarse
@@ -95,12 +92,6 @@
 
         </form>
     }
-
-
-
-
-
-
 
 
 </div>

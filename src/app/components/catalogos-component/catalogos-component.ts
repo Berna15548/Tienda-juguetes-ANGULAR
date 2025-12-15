@@ -28,10 +28,8 @@ export class CatalogosComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // primera carga
     this.acutalizarListaCatalogo();
 
-    // volver a cargar cuando se refresca el componente
     this.subs.add(
         this.router.events
             .pipe(filter(event => event instanceof NavigationEnd))

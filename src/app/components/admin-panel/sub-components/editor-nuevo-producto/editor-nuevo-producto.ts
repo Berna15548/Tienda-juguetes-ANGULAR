@@ -5,6 +5,16 @@ import {ProductosService} from "../../../../service/productos-service";
 import {AdminService} from "../../../../service/admin-service";
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
+import {MatCard} from "@angular/material/card";
+import {MatButton} from "@angular/material/button";
+import {MatIcon} from "@angular/material/icon";
+import {MatLabel} from "@angular/material/form-field";
+import {MatFormField} from "@angular/material/form-field";
+import {MatInput} from "@angular/material/input";
+import {MatDivider} from "@angular/material/divider";
+import {MatCardContent} from "@angular/material/card";
+import {MatCardTitle} from "@angular/material/card";
+import {MatCardHeader} from "@angular/material/card";
 
 @Component({
   selector: 'app-editor-nuevo-producto',
@@ -13,6 +23,16 @@ import {FormsModule} from "@angular/forms";
     ReactiveFormsModule,
     CommonModule,
     FormsModule,
+    MatCard,
+    MatButton,
+    MatIcon,
+    MatLabel,
+    MatFormField,
+    MatInput,
+    MatDivider,
+    MatCardContent,
+    MatCardTitle,
+    MatCardHeader,
   ],
   templateUrl: './editor-nuevo-producto.html',
   styleUrl: '../../admin-panel.scss',

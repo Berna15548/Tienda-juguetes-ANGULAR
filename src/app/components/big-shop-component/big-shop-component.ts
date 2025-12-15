@@ -11,11 +11,10 @@ import { ProductCard } from "../../share-components/product-card/product-card";
         AsyncPipe,
         ProductCard
     ],
-    styleUrls: ['./big-shop-component.scss'] // <- corregido
+    styleUrls: ['./big-shop-component.scss'] 
 })
-export class BigShopComponent implements OnInit { // <- IMPLEMENTA OnInit
-
-    // Variable opcional si querés suscribirte
+export class BigShopComponent implements OnInit { 
+    
     productosNuevos: any[] = [];
 
     constructor(public newProductsService: NewProductsService, 
@@ -24,7 +23,6 @@ export class BigShopComponent implements OnInit { // <- IMPLEMENTA OnInit
     {}
 
     ngOnInit() {
-        // Suscribirse al BehaviorSubject para tener un array local (opcional)
         this.newProductsService.coleccionProductosNuevosSubject$.subscribe(
             productos => this.productosNuevos = productos
         );

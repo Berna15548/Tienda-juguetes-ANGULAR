@@ -91,16 +91,14 @@ export class CartComponent implements OnInit{
     async comprar() {
         const user = this.authService.currentUser
         const firestore = getFirestore();
-        //alerta por si el usuario no esta logeado
         if (!user) {
             alert('Debes estar logueado para comprar.');
             return;
         }
 
-        // 🔧 Convertir carritoCompleto en datos aptos para Firestore
         const productos = this.carritoCompleto.map(item => ({
-            ...item.producto, // Copia todas las propiedades del producto
-            unidades: item.unidades // Le agrega las unidades compradas
+            ...item.producto, 
+            unidades: item.unidades 
         }));
 
         const compra = {

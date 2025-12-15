@@ -28,7 +28,7 @@ export class NewProductsService {
   public coleccionProductosNuevosSubject$ = this.coleccionProductosNuevosSubject.asObservable();
   private productosNuevosSubject = new BehaviorSubject<(Producto & newProductsCollection)[]>([]);
   public productosNuevosSubject$ = this.productosNuevosSubject.asObservable();
-  public listaProductosNuevos: newProductsCollection[] = []; //"newproduct" seleccionado por el usuario
+  public listaProductosNuevos: newProductsCollection[] = []; 
   public inputNombreProductoNuevo : string = '';
   public listaProductosNuevosFiltrados: (Producto & newProductsCollection)[] = [];
   
@@ -51,17 +51,16 @@ export class NewProductsService {
   ) {
     this.getColeccionDeProductosNuevos().subscribe({
       next: collection => this.coleccionProductosNuevosSubject.next(collection),
-      error: err => console.error('❌ Error al obtener poductos nuevos:', err)
+      error: err => console.error('Error al obtener poductos nuevos:', err)
     });
 
     this.cargarProductosNuevos();
   }
 
   getProductosNuevos(): Observable<(Producto & newProductsCollection)[]> {
-    console.log('se llamo a getProductosNuevos');
     return combineLatest([
-      this.productosService.getProductos(),        // productos
-      this.coleccionProductosNuevosSubject$                  // productos nuevos
+      this.productosService.getProductos(), 
+      this.coleccionProductosNuevosSubject$   
     ]).pipe(
         map(([productos, newProducts]) => {
           return productos
@@ -86,10 +85,9 @@ export class NewProductsService {
     this.getProductosNuevos().subscribe({
       next: (productosNuevos) => {
         this.productosNuevosSubject.next(productosNuevos);
-        console.log('🔹 productos nuevos actualizados:', productosNuevos);
       },
       error: (err) => {
-        console.error("❌ Error al obtener productos nuevos:", err);
+        console.error("Error al obtener productos nuevos:", err);
         this.productosNuevosSubject.next([]);
       }
     });
@@ -119,24 +117,19 @@ export class NewProductsService {
   seleccionarProductoParaNuevosProductos(producto: Producto) {
     this.productoSeleccionadoParaNuevosProductos = producto;
     this.productosService.buscadorNuevosProductosService = this.productoSeleccionadoParaNuevosProductos.nombre // se autocompleta el nombre al clikear
-    console.log("se llamo a seleccionarProductoParaNuevosProductos()");
   }
 
 
   async agregarNuevoProductoNuevo() {
     try {
-      // Crear el objeto con id 
       const nuevoObjeto: newProductsCollection = {
         productId: this.productoSeleccionadoParaNuevosProductos.id,
       };
-      // Llamar al servicio para guardar
       const id = await this.agregarColeccionDeProductosNuevos(nuevoObjeto);
-      console.log('New Product agregado con id:', id);
 
     } catch (error) {
       console.error('Error agregando producto a la coleccion de nuevos productos:', error);
     }
-    // Limpiar inputs y variables
     this.productosService.buscadorNuevosProductosService = '';
     this.limpiarProductoSeleccionadoParaNuevosProductos()
 
@@ -150,19 +143,17 @@ export class NewProductsService {
     const rutaGenerada = `/newProductCollection-${docRef.id}`;
     await updateDoc(docRef, { route: rutaGenerada });
 
-    return docRef.id;  // Esto devuelve el id para confirmar
+    return docRef.id; 
   }
 
   seleccionarProductoNuevoParaEliminarDeLista(ProductoNuevo: Producto & newProductsCollection) {
     const idProductoNuevo : string = ProductoNuevo.productId;
-    console.log("se llamo a seleccionarProductoNuevoParaEliminarDeLista()");
 
     if (this.inputNombreProductoNuevo.length === 0) {
       this.listaProductosNuevos = [];
-      console.log("se vacio listaProductosNuevos")
       return
     }
-    this.inputNombreProductoNuevo = ProductoNuevo.nombre // autocompleta el buscador con el nombre del producto
+    this.inputNombreProductoNuevo = ProductoNuevo.nombre
     const constanteListaProductosNuevos = this.coleccionProductosNuevosSubject.getValue();
     const productoNuevo : newProductsCollection | undefined = constanteListaProductosNuevos.find(item => item.productId === idProductoNuevo);
 
@@ -175,13 +166,13 @@ export class NewProductsService {
 
   async borrarProductoDeListaProductosNuevosService() {
     if (!this.listaProductosNuevos.length) {
-      console.log("⚠️ No hay producto nuevo seleccionado para eliminar");
+      console.log("No hay producto nuevo seleccionado para eliminar");
       return;
     }
 
     const idDoc = this.listaProductosNuevos[0].id;
     if (!idDoc) {
-      console.error("❌ No se encontró el ID del producto nuevo en Firestore");
+      console.error("No se encontró el ID del producto nuevo en Firestore");
       return;
     }
 
@@ -189,22 +180,20 @@ export class NewProductsService {
 
     try {
       await deleteDoc(docRef);
-      console.log("✅ producto nuevo eliminado de la lista");
-      // Limpiar selección de productos nuevos y el input
+      console.log("producto nuevo eliminado de la lista");
       this.listaProductosNuevos = [];
       this.inputNombreProductoNuevo = "";
     } catch (error) {
-      console.error("❌ Error al eliminar producto nuevo:", error);
+      console.error("Error al eliminar producto nuevo:", error);
     }
   }
   
 
   filtrarListaDeProductosNuevos() {
     const termino = this.inputNombreProductoNuevo.toLowerCase().trim();
-    console.log("Se llamó a filtrarListaDeProductosNuevos() en newproduct service");
 
     if (termino.length === 0) {
-      console.log("🟡 Término vacío, vaciando descuentosFiltrados");
+      console.log("Término vacío, vaciando descuentosFiltrados");
       this.listaProductosNuevosFiltrados = [];
       return;
     }

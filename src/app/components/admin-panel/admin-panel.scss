@@ -61,7 +61,7 @@ h2 {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    max-height: 40px;
+
     width: 100%;
 }
 
@@ -124,18 +124,17 @@ h2 {
     background-color: #1565c0;
 }
 
-/*MODAL PREGUNTA GUARDAR CAMBIOS*/
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5); /* fondo oscuro semitransparente */
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* para que quede arriba */
+    z-index: 1000;
 }
 
 .modal-contenido {
@@ -181,9 +180,10 @@ h2 {
 
 .fila-superior {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    margin-bottom: 30px;
+    margin: 30px;
 }
 
 .label-checkbox{
@@ -239,4 +239,149 @@ h2 {
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.product-editor-card {
+    max-width: 1000px;
+    width: 100%;
+    padding: 20px;
+}
+
+.product-form {
+    display: grid;
+    grid-template-columns: 60% 40%;
+    gap: 20px;
+}
+
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.bulk-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.image-url-display {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    padding: 10px 0;
+}
+
+.modal-overlay-custom {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-contenido-custom {
+    padding: 24px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2), 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12);
+}
+
+.product-form {
+    display: grid;
+    grid-template-columns: 60% 40%;
+    gap: 20px;
+    width: 100%;
+}
+
+.col-izq {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.col-der {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.botonera {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.botonera button {
+    margin: 10px 0;
+    width: 100%;
+}
+
+.botonera mat-icon {
+    margin-right: 6px;
+}
+
+/*                  */
+.cuadricula-busqueda {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 12px;
+
+    width: 100%;
+    height: 120px;
+}
+
+.cuadricula-busqueda > * {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+    padding: 10px;
+
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: white;
+}
+
+.cuadricula-busqueda input[type="text"] {
+    justify-content: flex-start;
+}
+
+.label-checkbox {
+    flex-direction: row;
+    cursor: pointer;
+}
+
+.boton-cerrar{
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: lightgray;
+    padding: 5px;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: visible;
+}
+
+.input-nueva-carta-de-coleccion{
+    padding: 10px;
 }

@@ -17,12 +17,10 @@ export class Compras {
     this.carritoSubject = new BehaviorSubject<ItemCarrito[]>(inicial);
   }
 
-  // Observable para usar con async pipe
   get carrito$(): Observable<ItemCarrito[]> {
     return this.carritoSubject.asObservable();
   }
 
-  // Getter directo
   getCarrito(): ItemCarrito[] {
     return this.carritoSubject.value;
   }
@@ -64,6 +62,6 @@ export class Compras {
     localStorage.removeItem(this.KEY);
     this.carritoSubject.next([]);
     
-    this.actualizarCarrito([]); // esto elimina el registro en localstorage
+    this.actualizarCarrito([]); 
   }
 }

@@ -10,25 +10,28 @@ import {
   Firestore,
   deleteDoc,
   doc,
-  updateDoc,
 } from "@angular/fire/firestore";
 import {
   BehaviorSubject,
   Observable
 } from "rxjs";
 import { ProductosService } from "./productos-service";
+import {writeBatch} from "firebase/firestore";
+import {getDocs} from "firebase/firestore";
+import {firestore} from "firebase-admin";
+import DocumentReference = firestore.DocumentReference;
 
 @Injectable({
   providedIn: 'root'
 })
-export class ColeccionesDeProductosService {
+class ColeccionesDeProductosService {
 
   private coleccionSubject = new BehaviorSubject<productCollectionCard[]>([]);
   public coleccionDeProductos$ = this.coleccionSubject.asObservable();
   private productosFiltradosSubject = new BehaviorSubject<Producto[]>([]);
   public productosFiltradosParaCartasDeColecciones$ = this.productosFiltradosSubject.asObservable();
   public listaDeIDsProductosParaPushearEnCartaDeColeccion: string [] = [];
-  public buscadorProductosCartasDeColecciones: string = ''; // es el searchTearm de cartas de colecciones
+  public buscadorProductosCartasDeColecciones: string = ''; 
 
   public productoSeleccionadoParaCartaDeColeccion: Producto = {
     nombre: '',
@@ -42,7 +45,7 @@ export class ColeccionesDeProductosService {
     descuento: 0,
   };
   
-  
+
 
   constructor(private firestore: Firestore, private productosService : ProductosService) {
     this.getColeccionDeProductos().subscribe({
@@ -61,7 +64,6 @@ export class ColeccionesDeProductosService {
   }
 
   eliminarProductoDeColeccion(id: any) {
-    // Buscar la colección por id en el último valor emitido
     const coleccionEliminada = this.coleccionSubject.getValue().find(c => c.id === id);
 
     if (coleccionEliminada) {
@@ -82,16 +84,13 @@ export class ColeccionesDeProductosService {
   }) {
     const coleccionRef = collection(this.firestore, 'colecciones_de_productos');
 
-    // 1. Agregar sin route
     const docRef = await addDoc(coleccionRef, producto);
-
-
+    
   }
 
 
   filtrarProductosParaCartasDeColecciones() {
     const termino = this.buscadorProductosCartasDeColecciones.toLowerCase().trim();
-    console.log("🔍 Se llamó a filtrarProductosParaCartasDeColecciones()");
 
     if (termino.length === 0) {
       console.log("🟡 Término vacío, vaciando productosFiltradosParaCartasDeColecciones");
@@ -121,37 +120,63 @@ export class ColeccionesDeProductosService {
       this.productosFiltradosSubject.next([]);
     }
   }
-
-
+  
   seleccionarProductoParaNuevaCartaDeColeccion(producto: Producto) {
-    console.log("se llamo a seleccionarProductoParaNuevaCartaDeColeccion()")
     this.productoSeleccionadoParaCartaDeColeccion = producto;
     this.listaDeIDsProductosParaPushearEnCartaDeColeccion.push(producto.id);
-    this.buscadorProductosCartasDeColecciones = this.productoSeleccionadoParaCartaDeColeccion.nombre // se autocompleta el nombre al clikear
+    this.buscadorProductosCartasDeColecciones = this.productoSeleccionadoParaCartaDeColeccion.nombre
 
   }
 
 
+  async limpiarColeccionesHuerfanas() {
+    console.log('Iniciando limpieza de colecciones huérfanas...');
 
+    const batch = writeBatch(this.firestore);
 
+    const productosSnapshot = await getDocs(collection(this.firestore, 'productos'));
+    const idsValidos = new Set<string>();
+    productosSnapshot.forEach(doc => doc.id && idsValidos.add(doc.id));
 
+    const coleccionesSnapshot = await getDocs(collection(this.firestore, 'colecciones_de_productos'));
+    const promesasBorrado: Promise<void>[] = [];
 
+    for (const coleccionDoc of coleccionesSnapshot.docs) {
+      const data = coleccionDoc.data() as productCollectionCard;
+      const listaActual = (data.lista_productos_coleccion || []) as string[];
 
+      const idsQueExisten = listaActual.filter(id => idsValidos.has(id));
 
+      if (idsQueExisten.length === 0) {
+        promesasBorrado.push(
+            deleteDoc(doc(this.firestore, 'colecciones_de_productos', coleccionDoc.id))
+        );
+        console.log(`Colección "${data.name || 'sin nombre'}" será eliminada (vacía)`);
+      } else if (idsQueExisten.length < listaActual.length) {
+        // Limpiar IDs huérfanos
+        batch.update(coleccionDoc.ref, {
+          lista_productos_coleccion: idsQueExisten
+        });
+        console.log(`Colección "${data.name || 'sin nombre'}" limpiada: removidos ${listaActual.length - idsQueExisten.length} productos`);
+      }
+    }
 
+    await batch.commit();
+    console.log('Actualizaciones de colecciones aplicadas');
 
+    if (promesasBorrado.length > 0) {
+      await Promise.all(promesasBorrado);
+      console.log(`${promesasBorrado.length} colecciones vacías eliminadas`);
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    console.log('Limpieza completada con éxito');
+  }
 }
+
+export default ColeccionesDeProductosService
+
+
+
+
+
+

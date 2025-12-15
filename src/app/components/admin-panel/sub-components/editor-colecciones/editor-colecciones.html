@@ -1,92 +1,102 @@
-<!-- EDITOR DE COLECCIONES -        ---        -         ---             --              ---         -->
-<div class="editor-de-colecciones">
-    <hr>
-    <h3>Editar cartas de colecciones</h3>
-    <div style="display: flex; flex-direction: row; justify-content: space-between; gap: 50px">
-        <div>
-            <h5>Crear colección</h5>
-            <input #nombreInput type="text" placeholder="Nombre de la colección" />
-            <input #descripcionInput type="text" placeholder="Descripción" />
-            <input #imagenInput type="text" placeholder="URL de la imagen" />
+<mat-card class="product-editor-card">
 
-            <div style="display: flex; flex-direction: row;">
-                <div style="position: relative; display: inline-block;">
-                    <input
-                            class="input-nueva-carta-de-coleccion"
-                            type="text"
-                            placeholder="Buscar productos..."
-                            [(ngModel)]="coleccionesService.buscadorProductosCartasDeColecciones"
-                            (input)="coleccionesService.filtrarProductosParaCartasDeColecciones(); coleccionesService.limpiarProductoSeleccionadoParaCartasDeColecciones()"
-                            (focus)="adminService.mostrarResultadosCartasDeColecciones = true"
-                            (blur)="adminService.ocultarResultadosConDelay()"
-                            autocomplete="off"
-                    />
-
-                    <!-- Resultados de búsqueda -->
-                    @if (adminService.mostrarResultadosCartasDeColecciones && coleccionesService.buscadorProductosCartasDeColecciones!=="") {
-                        <div class="resultados">
-                            @for (producto of coleccionesService.productosFiltradosParaCartasDeColecciones$ | async; track producto.nombre) {
-                                <div class="miniatura-de-busqueda" (click)="coleccionesService.seleccionarProductoParaNuevaCartaDeColeccion(producto)">
-                                    <img [ngSrc]="producto.imagen" width="50" height="50" alt="" />
-                                    <h5>{{ producto.nombre }}</h5>
-                                    <span>{{ producto.precio | currency }}</span>
-                                </div>
-                            }
-                        </div>
-                    }
-                </div>
-
-                <button (click)="adminService.agregarNuevaColeccion(nombreInput, descripcionInput, imagenInput)">
-                    Agregar colección
-                </button>
+    <!-- ================= Editor ================= -->
+    <mat-card-header style="display: flex; justify-content: space-between">
+        <mat-card-title>
+            <div style="display: flex; gap: 15px;">
+                <mat-icon>edit</mat-icon>
+                <h2 style="border: none; color: darkblue">Editor de colecciones</h2>
             </div>
+        </mat-card-title>
 
-            <div style="display: flex; flex-direction: column; margin-top: 10px">
-                <h5>Eliminar colección</h5>
-                <div style="display: flex; flex-direction: row">
-                    <mat-form-field appearance="fill">
-                        <mat-label>Seleccionar colección</mat-label>
-                        <mat-select #select>
-                            @for (coleccion of coleccionesService.coleccionDeProductos$ | async; track coleccion.id) {
-                                <mat-option [value]="coleccion.id">
-                                    {{ coleccion.name }}
-                                </mat-option>
-                            }
-                        </mat-select>
-                    </mat-form-field>
-                    <button
-                            mat-raised-button
-                            color="warn"
-                            (click)="coleccionesService.eliminarProductoDeColeccion(select.value)"
-                            [disabled]="!select.value"
-                    >
-                        Eliminar colección seleccionada
+    </mat-card-header>
+
+    <mat-card-content>
+        <mat-divider></mat-divider>
+        <div style="height: 15px"></div>
+
+        <!-- FORMULARIO -->
+        <div style="display: flex; flex-direction: row; justify-content: space-between; gap: 50px">
+
+            <div style="flex: 1; display: flex; flex-direction: column; gap: 10px; min-width: 250px;">
+                <h5>Crear colección</h5>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Nombre de la colección</mat-label>
+                    <input matInput #nombreInput>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Descripción</mat-label>
+                    <input matInput #descripcionInput>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>URL de la imagen</mat-label>
+                    <input matInput #imagenInput>
+                </mat-form-field>
+
+                <div style="display: flex; flex-direction: row; gap: 10px;">
+                    <div style="position: relative; display: inline-block; flex: 1;">
+                        <input
+                                class="input-nueva-carta-de-coleccion"
+                                type="text"
+                                placeholder="Buscar productos..."
+                                [(ngModel)]="coleccionesService.buscadorProductosCartasDeColecciones"
+                                (input)="coleccionesService.filtrarProductosParaCartasDeColecciones(); coleccionesService.limpiarProductoSeleccionadoParaCartasDeColecciones()"
+                                (focus)="adminService.mostrarResultadosCartasDeColecciones = true"
+                                (blur)="adminService.ocultarResultadosConDelay()"
+                                autocomplete="off"
+                        />
+
+                        <!-- Resultados de búsqueda -->
+                        @if (adminService.mostrarResultadosCartasDeColecciones && coleccionesService.buscadorProductosCartasDeColecciones !== "")
+                        {
+                            <div class="resultados">
+                                @for (producto of coleccionesService.productosFiltradosParaCartasDeColecciones$ | async; track producto.nombre)
+                                {
+                                    <div class="miniatura-de-busqueda" (click)="coleccionesService.seleccionarProductoParaNuevaCartaDeColeccion(producto)">
+                                        <img [ngSrc]="producto.imagen" width="50" height="50" alt="">
+                                        <h5>{{ producto.nombre }}</h5>
+                                        <span>{{ producto.precio | currency }}</span>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+
+                    <button mat-raised-button color="primary" (click)="adminService.agregarNuevaColeccion(nombreInput, descripcionInput, imagenInput)">
+                        Agregar colección
                     </button>
                 </div>
+
+
             </div>
-        </div>
 
-        <!-- preview del producto -->
-        @for (idProducto of coleccionesService.listaDeIDsProductosParaPushearEnCartaDeColeccion; track idProducto) {
-            @let producto = productosService.getProductoPorId(idProducto);
+            <!-- COLUMNA DERECHA: Previews -->
+            <div style="flex: 1; display: flex; flex-direction: column; gap: 10px; min-width: 250px;">
+                <div style="margin-top: 10px;">
+                    <h5>Eliminar colección</h5>
+                    <div style="display: flex; flex-direction: row; gap: 10px; align-items: center;">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Seleccionar colección</mat-label>
+                            <mat-select #select>
+                                @for (coleccion of coleccionesService.coleccionDeProductos$ | async; track coleccion.id)
+                                {
+                                    <mat-option [value]="coleccion.id">
+                                        {{ coleccion.name }}
+                                    </mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
 
-            @if (producto != null)
-            {
-                <div class="preview-descuento" style="pointer-events: none;">
-                    <div class="miniatura-de-descuento" >
-                        <img
-                                [ngSrc]="producto.imagen"
-                                width="50"
-                                height="50"
-                                alt=""
-                        />
-                        <h5>{{ producto.nombre }}</h5>
-                        <span>{{ producto.precio | currency }}</span>
+                        <button mat-raised-button color="warn" (click)="coleccionesService.eliminarProductoDeColeccion(select.value)" [disabled]="!select.value">
+                            Eliminar colección seleccionada
+                        </button>
                     </div>
                 </div>
-            }
-        }
-    </div>
+            </div>
 
-
-</div>
+        </div>
+    </mat-card-content>
+</mat-card>

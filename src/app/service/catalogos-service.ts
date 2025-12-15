@@ -17,7 +17,6 @@ export class CatalogosService {
   ) {}
 
   setCatalogo(listaIds: string[]) {
-    console.log(`Se llamó a setCatalogo()`);
     this.catalogoVisible = listaIds;
   }
 
@@ -35,7 +34,6 @@ export class CatalogosService {
   }
 
   setCatalogoPorEdades(rango: RangoEdad): Promise<void> {
-    console.log("se llamo a setCatalogoPorEdades() : rango = " + rango)
     return new Promise(resolve => {
       this.productosService.trendProducts$.subscribe(productos => {
         const listaDeIds = productos

@@ -1,17 +1,56 @@
-<mat-card class="product-editor-card">
+<div>
 
-
-        <!-- ================= Editor ================= -->
-
-        <mat-card-header style="display: flex; justify-content: space-between">
+    <!-- ================= CARGA MASIVA ================= -->
+    <mat-card class="product-editor-card">
+        <mat-divider></mat-divider >
+        <mat-card-header>
             <mat-card-title >
-                <div style="display: flex; gap: 15px">
-                    <mat-icon>edit</mat-icon>
+                <div id="cont-titulo" style="display: flex; flex-direction: row; gap: 15px; align-content: center; justify-content: center">
+                    <mat-icon>upload_file</mat-icon>
                     <h2 style="border: none; color: darkblue">
-                        Editor de productos
+                        Carga masiva
                     </h2>
                 </div>
             </mat-card-title>
+        </mat-card-header>
+
+        <mat-divider></mat-divider>
+
+        <mat-card-content>
+
+            <p>Archivos permitidos: .xlsx, .xls, .csv</p>
+
+            <button mat-raised-button color="primary" (click)="fileInputMasivo.click()">
+                <mat-icon>cloud_upload</mat-icon>
+                Importar archivo
+            </button>
+
+            <input
+                    type="file"
+                    accept=".xlsx, .xls, .csv"
+                    (change)="adminService.importarExcel($event)"
+                    style="display:none"
+                    #fileInputMasivo
+            />
+
+            <div style="height: 40px"></div>
+            <mat-divider></mat-divider >
+        </mat-card-content>
+
+
+        <!-- ================= CARGA MANUAL ================= -->
+
+        <mat-card-header style="display: flex; justify-content: space-between">
+            <mat-card-title>
+                <div style="display: flex; gap: 15px">
+                    <mat-icon>upload</mat-icon>
+                    <h2 style="border: none; color: darkblue">
+                        Carga manual
+                    </h2>
+                </div>
+
+            </mat-card-title>
+
             <button class="boton-cerrar" (click)="adminService.vaciarEditor()">
                 <mat-icon>delete_sweep</mat-icon>
             </button>
@@ -86,12 +125,9 @@
                             </p>
                         }
 
-                        <button mat-raised-button color="accent"
-                                (click)="adminService.abrirModalGuardadoEdicion()"
-                                [disabled]="adminService.form.id === null"
-                        >
+                        <button mat-raised-button color="accent" (click)="adminService.abrirModalGuardadoProducto()">
                             <mat-icon>save</mat-icon>
-                            Guardar cambios
+                            Guardar producto
                         </button>
                     </div>
 
@@ -117,35 +153,36 @@
     </mat-card>
 
 
+    <!-- ================= MODALES ================= -->
 
-@if (adminService.mostrarModalGuardarEdicion) {
-    <div class="modal-overlay-custom">
-        <mat-card class="modal-contenido-custom">
-            <mat-card-title>Guardar Cambios</mat-card-title>
-            <mat-card-content>
-                <p>¿Desea guardar los cambios?</p>
-            </mat-card-content>
-            <mat-card-actions align="end">
-                <button mat-button (click)="adminService.cerrarModalGuardadoEdicion()">Cancelar</button>
-                <button mat-flat-button color="primary" (click)="adminService.confirmarGuardadoEdicion()">Aceptar</button>
-            </mat-card-actions>
-        </mat-card>
-    </div>
-}
+    @if (adminService.mostrarModalGuardarProducto) {
+        <div class="modal-overlay-custom">
+            <mat-card class="modal-contenido-custom">
+                <mat-card-title>Guardar Cambios</mat-card-title>
+                <mat-card-content>
+                    <p>¿Desea guardar los cambios?</p>
+                </mat-card-content>
+                <mat-card-actions align="end">
+                    <button mat-button (click)="adminService.cerrarModalGuardadoProducto()">Cancelar</button>
+                    <button mat-flat-button color="primary" (click)="adminService.confirmarGuardadoProducto()">Aceptar</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    }
 
-@if (adminService.mostrarModalEliminar) {
-    <div class="modal-overlay-custom">
-        <mat-card class="modal-contenido-custom" style="gap: 10px">
-            <mat-card-title style="align-self: center">Eliminar Productos</mat-card-title>
-            <mat-card-content>
-                <p>¿Desea eliminar los productos seleccionados?</p>
-            </mat-card-content>
-            <mat-card-actions style="justify-content: space-around">
-                <button mat-flat-button (click)="adminService.cerrarModalEliminar()">Cancelar</button>
-                <button mat-raised-button  (click)="adminService.confirmarEliminar()">Aceptar</button>
-            </mat-card-actions>
-        </mat-card>
-    </div>
-}
+    @if (adminService.mostrarModalEliminar) {
+        <div class="modal-overlay-custom">
+            <mat-card class="modal-contenido-custom">
+                <mat-card-title>Eliminar Productos</mat-card-title>
+                <mat-card-content>
+                    <p>¿Desea eliminar los productos seleccionados?</p>
+                </mat-card-content>
+                <mat-card-actions align="end">
+                    <button mat-button (click)="adminService.cerrarModalEliminar()">Cancelar</button>
+                    <button mat-flat-button color="warn" (click)="adminService.confirmarEliminar()">Aceptar</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    }
 
-
+</div>

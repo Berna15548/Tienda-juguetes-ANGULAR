@@ -1,5 +1,4 @@
 import { Component,ViewChild } from '@angular/core';
-import {  TopBar } from "../../share-components/top-bar/top-bar";
 import {
   FormBuilder,
   FormGroup,
@@ -90,14 +89,14 @@ export class Login {
     try {
       const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
       console.log('Usuario logueado:', userCredential.user.email);
-      this.tooltipMessage = "Usuario logueado"; /*el estado de logueado se almacena en localstorage*/
+      this.tooltipMessage = "Usuario logueado"; 
       this.tooltipRef.show();
       setTimeout(() => this.tooltipRef.hide(), 3000);
 
       await this.router.navigate(['/admin']);
 
     } catch (err: any) {
-        console.dir(err);  // Esto ayuda a inspeccionar
+        console.dir(err); 
         const code = err?.code;
 
         if (code === 'auth/invalid-credential') {
@@ -131,7 +130,6 @@ export class Login {
           const user = userCredential.user;
           console.log('Usuario creado:', user.email);
 
-          // 🔻 Crear documento Firestore con los campos iniciales
           const nuevoUsuario: DatosUsuario = {
             mail_usuario: user.email || '',
             compras_realizadas: []

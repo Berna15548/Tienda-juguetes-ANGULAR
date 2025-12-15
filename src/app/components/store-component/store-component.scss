@@ -21,8 +21,8 @@
 
 
 .block-card {
-    flex: 0 0 300px;          /* ancho fijo de cada carta */
-    height: 80vh;             /* altura igual para todas */
+    flex: 0 0 300px;
+    height: 80vh;
     position: relative;
     display: flex;
     min-width: 25vw;
@@ -92,8 +92,8 @@
 .cards-container {
     margin: 50px 50px;
     display: flex;
-    flex-wrap: wrap;         /* permite pasar a la siguiente fila */
-    justify-content: center; /* centra las filas */
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 5rem;
 }
 

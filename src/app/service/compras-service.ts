@@ -35,7 +35,6 @@ export class ComprasService {
       this.usuario = user;
       if (user) {
         const datos = await this.cargarDatosUsuario(user.uid);
-        console.log('Datos del usuario cargados:', datos);
         this.datosUsuarioSubject.next(datos);
       } else {
         this.datosUsuarioSubject.next(null);

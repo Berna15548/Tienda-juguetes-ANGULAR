@@ -31,8 +31,8 @@ export class TiendaProducto {
     
     constructor(
         public productosService: ProductosService,
-        public comprasService: ComprasService, // solo si usás Firebase para pedidos
-        public comprasLocalStorage: Compras // nuestro carrito real
+        public comprasService: ComprasService, 
+        public comprasLocalStorage: Compras
     ) {
         this.carrito$ = this.comprasLocalStorage.carrito$;
     }
@@ -41,9 +41,9 @@ export class TiendaProducto {
         console.log("se llamo a agregarProductoAlCarrito")
         const producto = this.productosService.productoEnPantalla;
         if (producto && producto.id) {
-            this.comprasLocalStorage.agregarProducto(producto.id, 1); // agrega 1 unidad
+            this.comprasLocalStorage.agregarProducto(producto.id, 1);
         } else {
-            console.warn('❌ No hay producto válido en pantalla');
+            console.warn('No hay producto válido en pantalla');
         }
     }
 }

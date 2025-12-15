@@ -1,107 +1,119 @@
-<!--EDITOR DE "NUEVOS PRODUCTOS"    -----       -----           --- -   --  -   -   --  -   -   -   -   --->
+<mat-card class="product-editor-card">
 
-         <!--VENTANA DE CARGAR ARCHIVO EXCEL-->
-    <div class="ventana-cargar-archivo-db">
-        <input type="file" (change)="adminService.importarExcel($event)" accept=".xlsx, .xls, .csv" />
-    </div>
+    <mat-card-header style="display: flex; justify-content: space-between">
+        <mat-card-title>
+            <div style="display: flex; gap: 15px; ">
+                <mat-icon>add_box</mat-icon>
+                <h2 style="border: none; color: darkblue">
+                    Administrar lista de nuevos
+                </h2>
+            </div>
+        </mat-card-title>
+    </mat-card-header>
 
-    <div>
-        <hr>
-        <h3>Administrar lista de nuevos productos</h3>
+    <mat-card-content>
+        <mat-divider></mat-divider>
+        <div style="height: 15px;"></div>
 
-        <div class="contenedor-descuentos">
-            <!--tabla de interacciones con nuevos productos-->
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+
+            <!-- ================= Agregar "nuevo" a producto existente ================= -->
             <div>
-                <!-- crear nuevo producto -->
-                <div>
-                    <h5>Agregar "nuevo" a producto existente</h5>
-                    <div style="display: flex; flex-direction: column;">
-                        <div style="position: relative; display: inline-block;">
+                <h5>Agregar "nuevo" a producto existente</h5>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+
+                    <div style="position: relative; display: inline-block;">
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Escriba el producto</mat-label>
                             <input
+                                    matInput
                                     class="input-descuentos"
                                     type="text"
-                                    placeholder="Escriba el producto"
                                     [(ngModel)]="productosService.buscadorNuevosProductosService"
                                     (input)="productosService.filtrarProductosParaNuevosProductosService(); adminService.newProductsService.limpiarProductoSeleccionadoParaNuevosProductos()"
                                     (focus)="adminService.mostrarResultadosAgregarNuevosProductos = true"
                                     (blur)="adminService.ocultarResultadosConDelay()"
                                     autocomplete="off"
-                            />
+                            >
+                            <mat-icon matSuffix>search</mat-icon>
+                        </mat-form-field>
 
-                            <!-- Resultados de búsqueda -->
-                            @if (adminService.mostrarResultadosAgregarNuevosProductos && productosService.buscadorNuevosProductosService!=="") {
-                                <div class="resultados">
-                                    @for (producto of productosService.productosFiltradosParaNuevoProductos; track producto.nombre) {
-                                        <div class="miniatura-de-busqueda" (click)="adminService.newProductsService.seleccionarProductoParaNuevosProductos(producto)">
-                                            <img [ngSrc]="producto.imagen" width="50" height="50" alt="" />
-                                            <h5>{{ producto.nombre }}</h5>
-                                            <span>{{ producto.precio | currency }}</span>
-                                        </div>
-                                    }
-                                </div>
-                            }
-                        </div>
-
-                        <button
-                                style="width: fit-content; margin: 10px 0"
-                                [disabled]="adminService.newProductsService.productoSeleccionadoParaNuevosProductos.nombre==='' "
-                                (click)="adminService.newProductsService.agregarNuevoProductoNuevo()"
-                        >
-                            Agregar a colección "nuevos productos"
-                        </button>
+                        <!-- Resultados de búsqueda -->
+                        @if (adminService.mostrarResultadosAgregarNuevosProductos && productosService.buscadorNuevosProductosService !== "")
+                        {
+                            <div class="resultados">
+                                @for (producto of productosService.productosFiltradosParaNuevoProductos; track producto.nombre)
+                                {
+                                    <div class="miniatura-de-busqueda" (click)="adminService.newProductsService.seleccionarProductoParaNuevosProductos(producto)">
+                                        <img [ngSrc]="producto.imagen" width="50" height="50" alt="">
+                                        <h5>{{ producto.nombre }}</h5>
+                                        <span>{{ producto.precio | currency }}</span>
+                                    </div>
+                                }
+                            </div>
+                        }
                     </div>
-                </div>
 
-                <!-- eliminar producto de lista de nuevos -->
-                <div>
-                    <h5 style="margin: 15px 0">Borrar producto de la lista de "productos nuevos"</h5>
-                    <!--buscador de prodcutos nuevos-->
+                    <button mat-raised-button color="primary"
+                            style="width: fit-content; margin-top: 10px;"
+                            [disabled]="adminService.newProductsService.productoSeleccionadoParaNuevosProductos.nombre === ''"
+                            (click)="adminService.newProductsService.agregarNuevoProductoNuevo()"
+                    >
+                        Agregar a colección "nuevos productos"
+                    </button>
+                </div>
+            </div>
+
+            <!-- ================= Eliminar producto de lista de nuevos ================= -->
+            <div>
+                <h5>Borrar producto de la lista de "productos nuevos"</h5>
+
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Buscar producto...</mat-label>
                     <input
+                            matInput
                             type="text"
-                            placeholder="Buscar producto..."
                             [(ngModel)]="adminService.newProductsService.inputNombreProductoNuevo"
                             (input)="adminService.newProductsService.filtrarListaDeProductosNuevos()"
                             (focus)="adminService.mostrarResultadosEliminarProductoNuevo = true"
                             (blur)="adminService.ocultarResultadosConDelay()"
                             autocomplete="off"
-                    />
-                    <!-- Resultados de búsqueda -->
-                    @if (adminService.mostrarResultadosEliminarProductoNuevo && adminService.newProductsService.listaProductosNuevosFiltrados.length!==0) {
-                        <div class="resultados">
-                            @for (productoNuevo of adminService.newProductsService.listaProductosNuevosFiltrados; track productoNuevo.nombre) {
-                                <div
-                                        class="miniatura-de-busqueda"
-                                        (click)="adminService.newProductsService.seleccionarProductoNuevoParaEliminarDeLista(productoNuevo)"
-                                >
-                                    <img [ngSrc]="productoNuevo.imagen" width="50" height="50" alt="" />
-                                    <h5>{{ productoNuevo.nombre }}</h5>
-                                    <span>{{ productoNuevo.precio | currency }}</span>
-                                </div>
-                            }
-                        </div>
-                    }
-                    <!--boton borrar "nuevo" a producto-->
-                    <button (click)="adminService.borrarNuevoProducto()">
-                        Retirar producto de la lista de nuevos
-                    </button>
-                </div>
+                    >
+                    <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
 
+                <!-- Resultados de búsqueda -->
+                @if (adminService.mostrarResultadosEliminarProductoNuevo && adminService.newProductsService.listaProductosNuevosFiltrados.length !== 0)
+                {
+                    <div class="resultados">
+                        @for (productoNuevo of adminService.newProductsService.listaProductosNuevosFiltrados; track productoNuevo.nombre)
+                        {
+                            <div class="miniatura-de-busqueda" (click)="adminService.newProductsService.seleccionarProductoNuevoParaEliminarDeLista(productoNuevo)">
+                                <img [ngSrc]="productoNuevo.imagen" width="50" height="50" alt="">
+                                <h5>{{ productoNuevo.nombre }}</h5>
+                                <span>{{ productoNuevo.precio | currency }}</span>
+                            </div>
+                        }
+                    </div>
+                }
+
+                <button mat-raised-button color="warn" (click)="adminService.borrarNuevoProducto()">
+                    Retirar producto de la lista de nuevos
+                </button>
             </div>
 
-            <!-- preview del producto -->
-            @if (adminService.newProductsService.productoSeleccionadoParaNuevosProductos.nombre !=="") {
-                <div class="preview-descuento" style="pointer-events: none;">
-                    <div class="miniatura-de-descuento">
-                        <img
-                                [ngSrc]="this.adminService.newProductsService.productoSeleccionadoParaNuevosProductos.imagen"
-                                width="50"
-                                height="50"
-                                alt=""
-                        />
-                        <h5>{{ this.adminService.newProductsService.productoSeleccionadoParaNuevosProductos.nombre }}</h5>
-                        <span>{{ this.adminService.newProductsService.productoSeleccionadoParaNuevosProductos.precio | currency }}</span>
+            <!-- ================= Preview del producto seleccionado ================= -->
+            @if (adminService.newProductsService.productoSeleccionadoParaNuevosProductos.nombre !== "")
+            {
+                <mat-card class="preview-descuento" style="display: flex; align-items: center; gap: 10px; pointer-events: none;">
+                    <img [ngSrc]="adminService.newProductsService.productoSeleccionadoParaNuevosProductos.imagen" width="50" height="50" alt="">
+                    <div>
+                        <h5>{{ adminService.newProductsService.productoSeleccionadoParaNuevosProductos.nombre }}</h5>
+                        <span>{{ adminService.newProductsService.productoSeleccionadoParaNuevosProductos.precio | currency }}</span>
                     </div>
-                </div>
+                </mat-card>
             }
+
         </div>
-    </div>
+    </mat-card-content>
+</mat-card>

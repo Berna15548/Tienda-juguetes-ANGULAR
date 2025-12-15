@@ -1,7 +1,6 @@
 
 <div class="catalogo-juguetes">
 
-    <!-- Lista de productos filtrados -->
     <div class="productos-grid">
         @for (producto of listaCatalogo; track producto.id) {
             <app-product-card [producto]="producto"></app-product-card>

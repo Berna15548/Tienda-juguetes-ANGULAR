@@ -1,20 +1,18 @@
 import { Injectable } from '@angular/core';
 import {inject} from "@angular/core";
-import {signal} from "@angular/core";
 import {Firestore} from "@angular/fire/firestore";
 import {Storage} from "@angular/fire/storage";
 import {ProductosService} from "./productos-service";
-import {ColeccionesDeProductosService} from "./colecciones-de-productos-service";
+import ColeccionesDeProductosService from "./colecciones-de-productos-service";
 import {NewProductsService} from "./new-products-service";
 import {ref} from "@angular/fire/storage";
 import {uploadBytes} from "@angular/fire/storage";
 import {getDownloadURL} from "@angular/fire/storage";
-import {doc} from "@angular/fire/firestore";
 import {updateDoc} from "@angular/fire/firestore";
 import {addDoc} from "@angular/fire/firestore";
-import {collection} from "@angular/fire/firestore";
-import {deleteDoc} from "@angular/fire/firestore";
 import * as XLSX from "xlsx";
+
+import { collection, doc, writeBatch } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -23,14 +21,15 @@ export class AdminService {
 
   private firestore = inject(Firestore);
   private storage = inject(Storage);
+  public allCategories: string[] = [];
+  public filteredCategories: string[] = [];
 
   constructor(
       public productosService: ProductosService,
       public coleccionesService: ColeccionesDeProductosService,
       public newProductsService: NewProductsService,
-  ) {}
+  ) {this.loadAllCategories();}
 
-  // Datos del formulario
   form = {
     id: null,
     nombre: '',
@@ -49,7 +48,8 @@ export class AdminService {
   mostrarResultadosAgregarDescuentos = false;
   mostrarResultadosAgregarNuevosProductos = false;
   timeoutBlur: any;
-  mostrarModalGuardar: boolean = false; /*modal elmergente guardar cambios si o no*/
+  mostrarModalGuardarEdicion: boolean = false;
+  mostrarModalGuardarProducto: boolean = false;
   mostrarModalEliminar: boolean = false;
   mostrarVentanaAdm: boolean = true;
 
@@ -80,6 +80,24 @@ export class AdminService {
       });
     });
   }
+  
+  guardarProductoNuevo(){
+    const data = {
+      nombre: this.form.nombre,
+      precio: this.form.precio,
+      descripcion: this.form.descripcion,
+      imagen: this.form.imagen,
+      categoria: this.form.categoria,
+      stock: this.form.stock,
+    };
+    if (!this.form.id){
+      addDoc(collection(this.firestore, 'productos'), data);
+    } else {
+      console.log("No se pudo guardar producto porque hay un id pendiente")
+    }
+    
+    this.resetFormulario();
+  }
 
   guardarCambiosProducto() {
     const data = {
@@ -95,35 +113,61 @@ export class AdminService {
       const docRef = doc(this.firestore, 'productos', this.form.id);
       updateDoc(docRef, data);
     } else {
-      addDoc(collection(this.firestore, 'productos'), data);
+      console.log("No se encontro id de producto a editar")
     }
 
     this.resetFormulario();
   }
+  
+  vaciarEditor(){
+    this.resetFormulario()
+  }
 
   async eliminarProductosSeleccionados() {
+    console.log("Se llamó eliminarProductosSeleccionados");
+
     if (this.productosService.productosSeleccionados.length === 0) {
-      console.log('⚠️ No hay productos seleccionados para eliminar.');
+      console.log('No hay productos seleccionados para eliminar.');
       return;
     }
 
-    const eliminaciones = [];
+    const batch = writeBatch(this.firestore);
 
     for (const p of this.productosService.productosSeleccionados) {
-      const docRef = doc(this.firestore, 'productos', p.id);
-      try {
-        await deleteDoc(docRef);
-        console.log(`✅ Producto eliminado: ${p.nombre}`);
-      } catch (error) {
-        console.error(`❌ Error al eliminar ${p.nombre}:`, error);
+      const productId = p.id;
+      if (productId) {
+        batch.delete(doc(this.firestore, 'productos', productId));
       }
-      eliminaciones.push(p);
     }
 
-    console.log('🧹 Eliminación múltiple completada.');
+    await batch.commit();
+    console.log('Productos eliminados físicamente');
+
+    await this.coleccionesService.limpiarColeccionesHuerfanas();
+
     this.productosService.productosSeleccionados = [];
-    this.productosService.filtrarProductos(); // Para actualizar la vista si es necesario
+    console.log('Eliminación completa + limpieza de colecciones');
   }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
 
   cargarEnFormulario(p: any) {
@@ -143,21 +187,33 @@ export class AdminService {
     };
     this.imagenUrl = '';
   }
-
-  /*guardar cambios si o no*/
-  abrirModalGuardado() {
-    this.mostrarModalGuardar = true;
+  
+  abrirModalGuardadoEdicion() {
+    this.mostrarModalGuardarEdicion = true;
   }
 
-  cerrarModalGuardado() {
-    this.mostrarModalGuardar = false;
+  cerrarModalGuardadoEdicion() {
+    this.mostrarModalGuardarEdicion = false;
   }
 
-  confirmarGuardado() {
+  confirmarGuardadoEdicion() {
     this.guardarCambiosProducto()
-    this.mostrarModalGuardar = false;
+    this.mostrarModalGuardarEdicion = false;
   }
 
+
+  abrirModalGuardadoProducto() {
+    this.mostrarModalGuardarProducto = true;
+  }
+
+  cerrarModalGuardadoProducto() {
+    this.mostrarModalGuardarProducto = false;
+  }
+
+  confirmarGuardadoProducto() {
+    this.guardarProductoNuevo()
+    this.mostrarModalGuardarProducto = false;
+  }
   /*importar archivo base de datos*/
   importarExcel(event: any): void {
     const archivo = event.target.files[0];
@@ -260,5 +316,29 @@ export class AdminService {
     this.newProductsService.borrarProductoDeListaProductosNuevosService()
   }
 
+  loadAllCategories(): void {
+    this.productosService.getProductos().subscribe((productos: any[]) => {
+      const categories = productos
+          .map(p => p.categoria)
+          .filter(c => c && c.trim() !== '');
 
+      this.allCategories = Array.from(new Set(categories));
+      this.filteredCategories = this.allCategories.slice();
+    });
+  }
+
+  filterCategories(value: string | null | undefined): void {
+    if (!value) {
+      this.filteredCategories = this.allCategories.slice();
+      return;
+    }
+
+    const filterValue = value.toLowerCase();
+
+    this.filteredCategories = this.allCategories.filter(category =>
+        category.toLowerCase().includes(filterValue)
+    );
+  }
+  
+  
 }

@@ -10,11 +10,12 @@ import {
   BehaviorSubject,
   Observable
 } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 
 @Injectable({ providedIn: 'root' })
 export class ProductosService {
-  verCarrito: boolean = false; // esto es solo para visualizar o no el componete carrito
+  verCarrito: boolean = false; 
 
   private trendProducts = new BehaviorSubject<Producto[]>([]);
   public trendProducts$ = this.trendProducts.asObservable();
@@ -23,17 +24,15 @@ export class ProductosService {
   public productosFiltradosParaNuevoProductos: Producto[] = [];
   public productosSeleccionados: Producto[] = [];
   public searchTerm: string = '';
-  public buscadorNuevosProductosService: string = ''; // es el searcjTerm de nuevos prodcutos
+  public buscadorNuevosProductosService: string = '';
   public productoEnPantalla: Producto | null = null;
   public mostrarTodosProductos: boolean = false;
 
- 
 
   constructor(private firestore: Firestore) {
     this.getProductos().subscribe({
 
       next: productos => {
-        console.log('🟢 Productos recibidos desde Firebase:', productos);
         
         this.trendProducts.next(productos);
         productos.forEach(p => (p.seleccionado = false));
@@ -57,7 +56,6 @@ export class ProductosService {
   
   filtrarProductos() {
     const termino = this.searchTerm.toLowerCase().trim();
-    console.log("🔍 Se llamó a filtrarProductos(), searchTerm:", this.searchTerm);
     
     //  Deseleccionar los que ya no están en productosFiltrados
     this.productosSeleccionados = this.productosSeleccionados.filter(p => {
@@ -68,16 +66,14 @@ export class ProductosService {
 
     // Mostrar todo si está activado el checkbox
     if (this.mostrarTodosProductos) {
-      console.log("📦 mostrarTodosProductos activado, mostrando todo");
       this.productosFiltrados = this.trendProducts.value;
 
-      this.searchTerm = "" /*limpia la barra de busqueda*/
+      this.searchTerm = "" 
       return;
     }
 
-    // 🟡 Si no hay término, vacía el array filtrado
+  
     if (termino.length === 0) {
-      console.log("🟡 Término vacío y checkbox desactivado, vaciando productosFiltrados");
       this.productosFiltrados = [];
       return;
     }
@@ -86,20 +82,15 @@ export class ProductosService {
         producto.nombre.toLowerCase().includes(termino)
     );
 
-    console.log("✅ Productos filtrados:", this.productosFiltrados);
   }
   
   filtrarProductosParaNuevosProductosService() {
     const termino = this.buscadorNuevosProductosService.toLowerCase().trim();
-    console.log("🔍 Se llamó a filtrarProductosParaNuevosProductosService() en productos service");
 
-    // 🟡 Si no hay término, vacía el array filtrado
     if (termino.length === 0) {
-      console.log("🟡 Término vacío, vaciando productosFiltradosParaNuevosProductos");
       this.productosFiltradosParaNuevoProductos = [];
       return;
     }
-    // Y aca pasa los productos que coincidan con el termino a la lista productosFiltradosParaNuevosProductos
     this.productosFiltradosParaNuevoProductos = this.trendProducts.value.filter(producto =>
         producto.nombre.toLowerCase().includes(termino)
     );
@@ -117,7 +108,6 @@ export class ProductosService {
   }
 
   seleccionarProducto(producto: Producto) {
-    console.log('Seleccionado:', producto);
     this.productoEnPantalla = producto;
   }
 
@@ -126,6 +116,10 @@ export class ProductosService {
   }
 
 
+
+  public productosConDescuento$: Observable<Producto[]> = this.trendProducts$.pipe(
+      map(productos => productos.filter(p => p.descuento > 0))
+  );
 
 
 

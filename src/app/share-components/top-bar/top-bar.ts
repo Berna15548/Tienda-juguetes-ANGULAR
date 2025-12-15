@@ -67,7 +67,7 @@ export class TopBar implements OnInit{
           categoriasUnicas.add(p.categoria.trim());
         }
       });
-      this.categorias = Array.from(categoriasUnicas).sort(); // opcional: ordenarlas
+      this.categorias = Array.from(categoriasUnicas).sort(); 
     });
 
     this.productosService.trendProducts$.subscribe(productos => {
@@ -77,7 +77,7 @@ export class TopBar implements OnInit{
           marcasUnicas.add(p.marca.trim());
         }
       });
-      this.marcas = Array.from(marcasUnicas).sort(); // opcional: ordenarlas
+      this.marcas = Array.from(marcasUnicas).sort(); 
     });
 
     this.productosService.trendProducts$.subscribe(productos => {
@@ -87,7 +87,6 @@ export class TopBar implements OnInit{
           rangos.add(p.rango_edades);
         }
       });
-      // aca ordenamos los rangos segun el interfaz de RANGOS_EDAD
       this.rangosEdades = Array.from(rangos).sort(
           (a, b) => RANGOS_EDAD.indexOf(a) - RANGOS_EDAD.indexOf(b)
       );
