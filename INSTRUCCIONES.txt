@@ -1,0 +1,31 @@
+Instrucciones para generar la base de datos en firebase
+
+1-Crear un nuevo proyecto en Firebase
+
+2-Instala firebase tools en el proyecto: npm install -g firebase-tools
+
+3-Logeate en firebase: firebase login  y luego inicia sesión en firebase: firebase init
+
+4-Vincula el proyecto local a un proyecto existente en tu firebase o crea uno nuevo
+
+5-Reemplaza los valores de: const firebaseConfig = {
+                             apiKey: " ",
+                             authDomain: " ",
+                             projectId: " ",
+                             storageBucket: " ",
+                             messagingSenderId: " ",
+                             appId: " ",
+                             measurementId: " ",
+                           };
+
+    que se encuentra dentro de main.ts en la raiz del proyecto.
+    Encontraras los valores de firebase en settings > general
+
+6-Ejecuta: firebase deploy
+
+7-Desde tu cuenta en Firebase podras dar rol de administrador a usuarios que hayan creado una cuenta en el sitio web y con ello
+ podran acceder a la ventana de administrador dentro de la página.
+
+8-Desde la ventana de administrador puedes crear nuevos productos manualmente o cargar el archivo excel que viene dentro de
+ este proyecto: "productos_juguetes_30.xlsx". También puedes crear tus propias colecciones de productos o agregarles descuentos.
+ Para ver un ejemplo completo visita el mio en: tienda-juguetes.web.app

@@ -18,8 +18,6 @@ import {
 import { ProductosService } from "./productos-service";
 import {writeBatch} from "firebase/firestore";
 import {getDocs} from "firebase/firestore";
-import {firestore} from "firebase-admin";
-import DocumentReference = firestore.DocumentReference;
 
 @Injectable({
   providedIn: 'root'
@@ -53,7 +51,7 @@ class ColeccionesDeProductosService {
         this.coleccionSubject.next(collection);
       },
       error: err => {
-        console.error('❌ Error al obtener productCollection desde Firebase:', err);
+        console.error('Error al obtener productCollection desde Firebase:', err);
       }
     });
   }

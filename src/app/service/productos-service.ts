@@ -39,7 +39,7 @@ export class ProductosService {
         this.filtrarProductos();
       },
       error: err => {
-        console.error('❌ Error al obtener productos desde Firebase:', err);
+        console.error('Error al obtener productos desde Firebase:', err);
       }
     });
   }
@@ -57,14 +57,12 @@ export class ProductosService {
   filtrarProductos() {
     const termino = this.searchTerm.toLowerCase().trim();
     
-    //  Deseleccionar los que ya no están en productosFiltrados
     this.productosSeleccionados = this.productosSeleccionados.filter(p => {
       const sigueEstando = this.productosFiltrados.includes(p);
       if (!sigueEstando) p.seleccionado = false;
       return sigueEstando;
     });
 
-    // Mostrar todo si está activado el checkbox
     if (this.mostrarTodosProductos) {
       this.productosFiltrados = this.trendProducts.value;
 

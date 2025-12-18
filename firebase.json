@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/portafolio-venta-juguetes",
+    "public": "dist/portafolio-venta-juguetes/browser",
     "ignore": [
       "firebase.json",
       "**/.*",
