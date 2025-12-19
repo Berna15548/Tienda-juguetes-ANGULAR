@@ -12,13 +12,12 @@ import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideStorage, getStorage } from '@angular/fire/storage';
 
 const firebaseConfig = {
-    apiKey: "",
-    authDomain: "",
-    projectId: "",
-    storageBucket: "",
-    messagingSenderId: "",
-    appId: "",
-    measurementId: ""
+    apiKey: "AIzaSyDwjMyEQ5FXik3bxCVrnIS1ohy-K6oUru8",
+    authDomain: "mcfirebase-46ada.firebaseapp.com",
+    projectId: "mcfirebase-46ada",
+    storageBucket: "mcfirebase-46ada.firebasestorage.app",
+    messagingSenderId: "726427296452",
+    appId: "1:726427296452:web:795bc5b39438e644e91f91"
 };
 
 bootstrapApplication(App, {

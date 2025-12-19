@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "tienda-juguetes"
-  }
+    "default": "mcfirebase-46ada"
+  },
+  "targets": {},
+  "etags": {}
 }
